@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(MeshRenderer))]
 public class FallingCube : MonoBehaviour, IPoolableObject
 {
     [SerializeField] private Color _startColor = Color.white;
@@ -11,7 +12,7 @@ public class FallingCube : MonoBehaviour, IPoolableObject
     private float _maxLifetime = 5f;
     private bool _changed = false;
 
-    public event Action<IPoolableObject> ReturnPoolEvent;
+    public event Action<IPoolableObject> ReturnConditionReached;
 
     private void Awake()
     {
@@ -65,6 +66,6 @@ public class FallingCube : MonoBehaviour, IPoolableObject
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(_minLifetime, _maxLifetime));
 
-        ReturnPoolEvent?.Invoke(this);
+        ReturnConditionReached?.Invoke(this);
     }
 }
