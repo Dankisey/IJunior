@@ -37,12 +37,12 @@ public class ObjectPool<T> where T : IPoolableObject
 
     public void SubscribeReturnEvent(T obj)
     {
-        obj.ReturnPoolEvent += OnReturnPoolEvent;
+        obj.ReturnConditionReached += OnReturnConditionReached;
     }
 
-    private void OnReturnPoolEvent(IPoolableObject obj)
+    private void OnReturnConditionReached(IPoolableObject obj)
     {
-        obj.ReturnPoolEvent -= OnReturnPoolEvent;
+        obj.ReturnConditionReached -= OnReturnConditionReached;
         Push((T)obj);
     }
 
@@ -54,7 +54,7 @@ public class ObjectPool<T> where T : IPoolableObject
 
 public interface IPoolableObject
 {
-    public event Action<IPoolableObject> ReturnPoolEvent;
+    public event Action<IPoolableObject> ReturnConditionReached;
 
     public void Enable();
 
